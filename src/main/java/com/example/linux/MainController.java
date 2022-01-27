@@ -1,16 +1,19 @@
 package com.example.linux;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
 public class MainController {
+
+    @Autowired
+    private MonsterService monsterService;
+    @Autowired
+    private ListMapService listMapService;
 
     @GetMapping("/")
     @ResponseBody
@@ -52,23 +55,37 @@ public class MainController {
     @ResponseBody
     public ArrayList<String> getlist(){
         System.out.println("Returning list...");
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Heikki");
-        list.add("Santeri");
-        list.add("Ville");
-        return list;
+       return ListMapService.getList();
     }
 
     @GetMapping("/map")
     @ResponseBody
     public HashMap<String, String> getMap(){
         System.out.println("Returning map...");
-        HashMap<String, String> map = new HashMap<>();
-        map.put("Suomi", "Tampere");
-        map.put("Ruotsi", "Tukholma");
-        map.put("Hollanti", "Amsterdam");
-        return map;
+        return ListMapService.getMap();
+
     }
 
+    @GetMapping("/monster")
+    @ResponseBody
+    public Monster getMonster(){
+        System.out.println("Returning monster..");
+        Monster monster = monsterService.getNewMonster();
+        return monster;
+    }
+
+    @PostMapping("/monster")
+    @ResponseBody
+    public Monster createMonster(@RequestBody Monster m){
+        System.out.println("Thank you for this Monster:");
+        System.out.println("Name: " + m.getmName() + "  Age: " +m.getmAge());
+        if (m.ismScary()){
+            System.out.println("Ah, your monster is Scary, ups!");
+        }
+        else{
+            System.out.println("Nice, your monster doesn't scare");
+        }
+        return m;
+    }
 
 }
