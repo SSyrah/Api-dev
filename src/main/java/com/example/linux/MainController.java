@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 @Controller
 public class MainController {
 
@@ -42,7 +45,30 @@ public class MainController {
     @ResponseBody
     public String HelloName(@PathVariable String name){
         System.out.println("Helloname");
-        return "Welcome to this website " + name;
+        return "Welcome to this website and your name is: " + name;
     }
+
+    @GetMapping("/list")
+    @ResponseBody
+    public ArrayList<String> getlist(){
+        System.out.println("Returning list...");
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Heikki");
+        list.add("Santeri");
+        list.add("Ville");
+        return list;
+    }
+
+    @GetMapping("/map")
+    @ResponseBody
+    public HashMap<String, String> getMap(){
+        System.out.println("Returning map...");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("Suomi", "Tampere");
+        map.put("Ruotsi", "Tukholma");
+        map.put("Hollanti", "Amsterdam");
+        return map;
+    }
+
 
 }
